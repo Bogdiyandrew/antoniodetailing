@@ -1,31 +1,16 @@
 "use client";
 
-import { useRef } from "react";
 import Image from "next/image";
-import { ArrowRight, ArrowLeft, MoveRight } from "lucide-react";
+import { MoveRight } from "lucide-react";
 
 export default function Services() {
-    // Referinta cu tip corect pentru TypeScript
-    const scrollRef = useRef<HTMLDivElement>(null);
-
-    const scroll = (direction: "left" | "right") => {
-        if (scrollRef.current) {
-            const { current } = scrollRef;
-            const scrollAmount = window.innerWidth < 768 ? window.innerWidth * 0.85 : 400;
-            current.scrollBy({
-                left: direction === "left" ? -scrollAmount : scrollAmount,
-                behavior: "smooth",
-            });
-        }
-    };
-
     return (
         <section id="servicii" className="relative bg-zinc-950 py-24 px-6 z-10 overflow-hidden">
             {/* Fundal cu Grid Subtil */}
             <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[length:24px_24px] pointer-events-none" />
 
             <div className="max-w-7xl mx-auto relative">
-                {/* Header Secțiune + Butoane Control */}
+                {/* Header Secțiune */}
                 <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
                     <div>
                         <h2 className="text-4xl md:text-6xl font-black text-white tracking-tight mb-2 uppercase">
@@ -35,27 +20,10 @@ export default function Services() {
                             Standarde de laborator în fiecare detaliu.
                         </p>
                     </div>
-
-                    {/* Butoane Navigare (Doar Desktop) */}
-                    <div className="hidden md:flex gap-3">
-                        <button
-                            onClick={() => scroll("left")}
-                            className="p-3 rounded-full border border-white/10 hover:bg-white/10 text-white transition active:scale-95"
-                        >
-                            <ArrowLeft className="w-5 h-5" />
-                        </button>
-                        <button
-                            onClick={() => scroll("right")}
-                            className="p-3 rounded-full border border-white/10 hover:bg-white/10 text-white transition active:scale-95"
-                        >
-                            <ArrowRight className="w-5 h-5" />
-                        </button>
-                    </div>
                 </div>
 
                 {/* CONTAINER CARUSEL (Mobil) / GRID (Desktop) */}
                 <div
-                    ref={scrollRef}
                     className="flex md:grid md:grid-cols-3 gap-4 overflow-x-auto md:overflow-visible snap-x snap-mandatory scrollbar-hide pb-8 md:pb-0 md:auto-rows-[300px]"
                     style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
                 >
