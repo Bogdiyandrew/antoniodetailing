@@ -1,14 +1,32 @@
+"use client";
+
+import { useRef } from "react";
 import Image from "next/image";
+import { ArrowRight, ArrowLeft, MoveRight } from "lucide-react";
 
 export default function Services() {
+    // Referinta cu tip corect pentru TypeScript
+    const scrollRef = useRef<HTMLDivElement>(null);
+
+    const scroll = (direction: "left" | "right") => {
+        if (scrollRef.current) {
+            const { current } = scrollRef;
+            const scrollAmount = window.innerWidth < 768 ? window.innerWidth * 0.85 : 400;
+            current.scrollBy({
+                left: direction === "left" ? -scrollAmount : scrollAmount,
+                behavior: "smooth",
+            });
+        }
+    };
+
     return (
         <section id="servicii" className="relative bg-zinc-950 py-24 px-6 z-10 overflow-hidden">
             {/* Fundal cu Grid Subtil */}
-            <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px] pointer-events-none" />
+            <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[length:24px_24px] pointer-events-none" />
 
             <div className="max-w-7xl mx-auto relative">
-                {/* Header Secțiune */}
-                <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
+                {/* Header Secțiune + Butoane Control */}
+                <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
                     <div>
                         <h2 className="text-4xl md:text-6xl font-black text-white tracking-tight mb-2 uppercase">
                             Laborator
@@ -17,18 +35,33 @@ export default function Services() {
                             Standarde de laborator în fiecare detaliu.
                         </p>
                     </div>
-                    <div className="hidden md:block text-right">
-                        <span className="text-xs font-mono text-cyan-500 border border-cyan-500/30 px-3 py-1 rounded bg-cyan-500/5">
-                            ANTONIO DETAILING
-                        </span>
+
+                    {/* Butoane Navigare (Doar Desktop) */}
+                    <div className="hidden md:flex gap-3">
+                        <button
+                            onClick={() => scroll("left")}
+                            className="p-3 rounded-full border border-white/10 hover:bg-white/10 text-white transition active:scale-95"
+                        >
+                            <ArrowLeft className="w-5 h-5" />
+                        </button>
+                        <button
+                            onClick={() => scroll("right")}
+                            className="p-3 rounded-full border border-white/10 hover:bg-white/10 text-white transition active:scale-95"
+                        >
+                            <ArrowRight className="w-5 h-5" />
+                        </button>
                     </div>
                 </div>
 
                 {/* CONTAINER CARUSEL (Mobil) / GRID (Desktop) */}
-                <div className="flex md:grid md:grid-cols-3 gap-4 overflow-x-auto md:overflow-visible snap-x snap-mandatory hide-scrollbar pb-8 md:pb-0 md:auto-rows-[300px]">
+                <div
+                    ref={scrollRef}
+                    className="flex md:grid md:grid-cols-3 gap-4 overflow-x-auto md:overflow-visible snap-x snap-mandatory scrollbar-hide pb-8 md:pb-0 md:auto-rows-[300px]"
+                    style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+                >
 
-                    {/* CARD 1: INTERIOR - Buton eliminat */}
-                    <div className="group flex-shrink-0 w-[85vw] md:w-auto h-[450px] md:h-auto md:col-span-2 snap-center relative overflow-hidden rounded-3xl bg-zinc-900 border border-white/5 hover:border-cyan-500/50 transition-all duration-500">
+                    {/* CARD 1: INTERIOR */}
+                    <div className="group shrink-0 w-[85vw] md:w-auto h-[450px] md:h-auto md:col-span-2 snap-center relative overflow-hidden rounded-3xl bg-zinc-900 border border-white/5 hover:border-cyan-500/50 transition-all duration-500">
                         <div className="absolute inset-0">
                             <Image
                                 src="/serv1.jpeg"
@@ -50,7 +83,7 @@ export default function Services() {
                     </div>
 
                     {/* CARD 2: CERAMIC */}
-                    <div className="group flex-shrink-0 w-[85vw] md:w-auto h-[450px] md:h-auto md:row-span-2 snap-center relative overflow-hidden rounded-3xl bg-zinc-900 border border-white/5 hover:border-purple-500/50 transition-all duration-500">
+                    <div className="group shrink-0 w-[85vw] md:w-auto h-[450px] md:h-auto md:row-span-2 snap-center relative overflow-hidden rounded-3xl bg-zinc-900 border border-white/5 hover:border-purple-500/50 transition-all duration-500">
                         <div className="absolute inset-0">
                             <Image
                                 src="/serv2.jpeg"
@@ -69,7 +102,7 @@ export default function Services() {
                     </div>
 
                     {/* CARD 3: POLISH */}
-                    <div className="group flex-shrink-0 w-[85vw] md:w-auto h-[450px] md:h-auto snap-center relative overflow-hidden rounded-3xl bg-zinc-900 border border-white/5 hover:border-blue-500/50 transition-all duration-500">
+                    <div className="group shrink-0 w-[85vw] md:w-auto h-[450px] md:h-auto snap-center relative overflow-hidden rounded-3xl bg-zinc-900 border border-white/5 hover:border-blue-500/50 transition-all duration-500">
                         <div className="absolute inset-0">
                             <Image
                                 src="/serv3.jpeg"
@@ -88,7 +121,7 @@ export default function Services() {
                     </div>
 
                     {/* CARD 4: FARURI */}
-                    <div className="group flex-shrink-0 w-[85vw] md:w-auto h-[450px] md:h-auto snap-center relative overflow-hidden rounded-3xl bg-zinc-900 border border-white/5 hover:border-yellow-500/50 transition-all duration-500">
+                    <div className="group shrink-0 w-[85vw] md:w-auto h-[450px] md:h-auto snap-center relative overflow-hidden rounded-3xl bg-zinc-900 border border-white/5 hover:border-yellow-500/50 transition-all duration-500">
                         <div className="absolute inset-0">
                             <Image
                                 src="/serv4.jpeg"
@@ -106,6 +139,15 @@ export default function Services() {
                         </div>
                     </div>
 
+                    {/* Spacer gol la final pentru mobil */}
+                    <div className="md:hidden min-w-[20px]" />
+
+                </div>
+
+                {/* Indicator Swipe (Vizibil doar pe Mobil) */}
+                <div className="md:hidden flex justify-center items-center gap-2 text-zinc-500 text-xs font-medium animate-pulse mt-4">
+                    <span>Swipe</span>
+                    <MoveRight className="w-4 h-4" />
                 </div>
             </div>
         </section>
